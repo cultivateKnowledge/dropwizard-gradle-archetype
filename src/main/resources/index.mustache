@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Dropwizard Gradle Archetype</title>
+	<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Hello World Dropwizard Gradle Archetype</h1>
+	<ul>
+		<li><a href="/admin/">Admin</a></li>
+		<li><a href="/admin/healthcheck">Health Checks</a></li>
+		<li><a href="/admin/metrics?pretty=true">Metrics</a></li>
+        <li><a href="config-info">Configuration info</a></li>
+        <li><a href="version">Version info</a></li>
+    </ul>
+
+<!-- The following text comes from mustache -->
+<div id="helloWorld">
+    This message comes from the backend through mustache: <span>{{helloWorldMsg}}</span>
+    <ul>
+    {{#worlds}}
+        <li>{{.}}</li>
+    {{/worlds}}
+    </ul>
+</div>
+
+<!-- GET METHOD -->
+<div>
+    <div class="row-fluid">
+        <div class="span5">
+
+            <h2>Hello World, Hello Name</h2>
+            <form name="get_name">
+
+                <label for="helloname">Name</label>
+                <input id="nameId" name="nameId" value="Bob">
+                <br><br>
+                <input type="submit" name="fetch" value="Fetch">
+            </form>
+        </div>
+    </div>
+    <div id="get_service_call" style="display:none;"><a href="#">link</a></div>
+    <div id="get_results" style="width:100%;"/>
+</div>
+
+<script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+jQuery(document).ready(function() {
+    $("form[name='get_name']").submit(function(e) {
+        e.preventDefault();
+
+        var helloNameId = $("input[name='nameId']", $(this)).val();
+
+        var get_url = "/hello-world?name=" + helloNameId;
+        $("#get_service_call a").attr('href', get_url).text(get_url).parent().show();
+        $.ajax({
+            url: get_url,
+            success:function(r) {
+                $("#get_results").html("<pre>" + JSON.stringify(r,null, 4) + "</pre>");
+            }
+        });
+    });
+
+});
+</script>
+
+</div>
+</body>
+</html>
