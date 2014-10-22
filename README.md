@@ -12,5 +12,5 @@ Contains:
 * Uses jdbi for database interaction
 * Uses jolokia for monitoring
 
-java -Ddropwizard.config=./src/main/resources/appconfig.yml -jar ./build/libs/helloWorld-0.1.0-fatJar.jar
+java -Ddropwizard.config=./src/main/resources/appconfig.yml -jar ./build/libs/dropwizard-gradle-archetype-0.1.0-fatJar.jar
 
