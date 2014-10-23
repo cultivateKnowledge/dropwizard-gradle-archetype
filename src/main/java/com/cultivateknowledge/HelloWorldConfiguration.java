@@ -20,16 +20,15 @@ public class HelloWorldConfiguration extends Configuration  {
 
     @JsonProperty
     @NotEmpty
-    private String template;
+    String template;
 
     @JsonProperty
     @NotEmpty
-    private
     String defaultName;
 
     @Valid
     @NotNull
     @JsonProperty
-    private DataSourceFactory database = new DataSourceFactory();
+    DataSourceFactory database = new DataSourceFactory();
 
 }

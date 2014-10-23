@@ -1,7 +1,6 @@
 package com.cultivateknowledge.client;
 
 import com.codahale.metrics.annotation.Timed;
-import feign.Feign;
 import com.cultivateknowledge.model.Saying;
 
 import javax.ws.rs.GET;
@@ -14,8 +13,8 @@ import javax.ws.rs.core.MediaType;
 public class HelloWorldConsumerResource {
     private final HelloWorldAPI hellowWorld;
 
-    public HelloWorldConsumerResource(Feign.Builder feignBuilder) {
-        this.hellowWorld = feignBuilder.target(HelloWorldAPI.class, "http://localhost:8080");
+    public HelloWorldConsumerResource(HelloWorldAPI helloWorldAPI) {
+        this.hellowWorld = helloWorldAPI;
     }
 
     @Timed

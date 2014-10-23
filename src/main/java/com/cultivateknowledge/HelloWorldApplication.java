@@ -1,9 +1,12 @@
 package com.cultivateknowledge;
 
 import com.codahale.metrics.JmxReporter;
+import com.cultivateknowledge.client.HelloWorldAPI;
 import com.cultivateknowledge.client.HelloWorldConsumerResource;
 import com.cultivateknowledge.service.HelloWorldDBResource;
+import com.cultivateknowledge.service.HelloWorldResource;
 import com.cultivateknowledge.service.IndexResource;
+import com.cultivateknowledge.service.db.HelloWorldDAO;
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
@@ -18,8 +21,10 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 import org.skife.jdbi.v2.DBI;
+import org.skife.jdbi.v2.Handle;
 
 import javax.inject.Named;
+import java.util.Arrays;
 
 public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
 
@@ -42,15 +47,23 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
                 .contract(new JAXRSModule.JAXRSContract()) // we want JAX-RS annotations
                 .encoder(new JacksonEncoder()) // we want Jackson because that's what Dropwizard uses already
                 .decoder(new JacksonDecoder());
-        env.jersey().register(new HelloWorldConsumerResource(feignBuilder));
+        HelloWorldAPI helloWorldAPI = feignBuilder.target(HelloWorldAPI.class, "http://localhost:8080");
+        env.jersey().register(new HelloWorldConsumerResource(helloWorldAPI));
 
         // Database CRUD Resource
         DBI dbi = new DBIFactory().build(env, cfg.getDataSourceFactory(), "db");
-        env.jersey().register(new HelloWorldDBResource(dbi));
+        env.jersey().register(new HelloWorldDBResource(dbi.onDemand(HelloWorldDAO.class)));
+
+        // Set-up test db with sample data for the sake of this demo
+        try (Handle h = dbi.open()) {
+            h.execute("create table something (id int primary key auto_increment, name varchar(100))");
+            String[] names = { "Gigantic", "Bone Machine", "Hey", "Cactus" };
+            Arrays.stream(names).forEach(name -> h.insert("insert into something (name) values (?)", name));
+        }
 
         // Hello World Resource
-        ObjectGraph objectGraph = ObjectGraph.create(new ModernModule(cfg));
-        com.cultivateknowledge.service.HelloWorldResource helloWorldResource = objectGraph.get(com.cultivateknowledge.service.HelloWorldResource.class);
+        ObjectGraph objectGraph = ObjectGraph.create(new HelloWorldDaggerModule(cfg));
+        HelloWorldResource helloWorldResource = objectGraph.get(HelloWorldResource.class);
         env.jersey().register(helloWorldResource);
 
         // Add index page
@@ -58,10 +71,10 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     }
 
     @Module(injects = com.cultivateknowledge.service.HelloWorldResource.class)
-    class ModernModule {
+    class HelloWorldDaggerModule {
         private final HelloWorldConfiguration cfg;
 
-        public ModernModule(HelloWorldConfiguration cfg) {
+        public HelloWorldDaggerModule(HelloWorldConfiguration cfg) {
             this.cfg = cfg;
         }
 

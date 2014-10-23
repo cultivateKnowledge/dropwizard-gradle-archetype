@@ -1,7 +1,9 @@
+# dropwizard-gradle-archetype
+
 Buildout of ideas from Modern Java Series
 
-http://blog.paralleluniverse.co/2014/05/01/modern-java/
-http://blog.paralleluniverse.co/2014/05/08/modern-java-pt2/
+http://blog.paralleluniverse.co/2014/05/01/modern-java/<br/>
+http://blog.paralleluniverse.co/2014/05/08/modern-java-pt2/<br/>
 http://blog.paralleluniverse.co/2014/05/15/modern-java-pt3/
 
 Contains:
@@ -12,5 +14,35 @@ Contains:
 * Uses jdbi for database interaction
 * Uses jolokia for monitoring
 
-java -Ddropwizard.config=./src/main/resources/appconfig.yml -jar ./build/libs/dropwizard-gradle-archetype-0.1.0-fatJar.jar
+<pre>java -Ddropwizard.config=./src/main/resources/appconfig.yml -jar ./build/libs/dropwizard-gradle-archetype-0.1.0-fatJar.jar</pre>
+
+
+
+## Gradle Quickstart
+
+// To compile and test<br/>
+ gradle test
+  
+//  To compile, test, and generate coverage reports<br/>
+ gradle test jacocoTestReport
+
+// To run the webapp<br/>
+gradle run
+
+// To create a fatJar for deployment<br/>
+ gradle fatJar
+ 
+## Service Examples
+
+http://localhost:8080/
+
+http://localhost:8080/db/all
+
+http://localhost:8080/db/item/1
+
+http://localhost:8080/hello-world
+
+http://localhost:8080/hello-world?name=Bob
+
+
 

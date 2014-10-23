@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: "jacoco"
 
 sourceCompatibility = '1.8'
 
@@ -12,6 +13,10 @@ repositories {
 
 configurations {
     jolokia
+}
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
 }
 
 dependencies {
