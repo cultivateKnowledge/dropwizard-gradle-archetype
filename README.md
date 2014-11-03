@@ -13,9 +13,10 @@ Contains:
 * Uses dagger for Dependency Injection
 * Uses jdbi for database interaction
 * Uses jolokia for monitoring
+* Uses jacoco for code coverage
+* Uses Cucumber for BDD testing
 
 <pre>java -Ddropwizard.config=./src/main/resources/appconfig.yml -jar ./build/libs/dropwizard-gradle-archetype-0.1.0-fatJar.jar</pre>
-
 
 
 ## Gradle Quickstart
@@ -32,7 +33,7 @@ Contains:
 // To create a fatJar for deployment<br/>
  gradle fatJar
  
- // To run with JPDA Debugger Enabled (port 5005)
+ // To run with JPDA Debugger Enabled (port 5005)<br/>
  gradle -DDEBUG=true run
  
 ## Service Examples
