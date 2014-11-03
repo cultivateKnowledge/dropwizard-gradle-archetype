@@ -10,6 +10,7 @@ import static org.junit.Assert.assertThat;
 
 /**
  * Global step definitions for conditions laid out in feature files
+ * https://thomassundberg.wordpress.com/2014/05/29/cucumber-jvm-hello-world/
  */
 public class StepDefinitions {
     private Belly belly;
