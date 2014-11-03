@@ -27,10 +27,13 @@ Contains:
  gradle test jacocoTestReport
 
 // To run the webapp<br/>
-gradle run
+ gradle run
 
 // To create a fatJar for deployment<br/>
  gradle fatJar
+ 
+ // To run with JPDA Debugger Enabled (port 5005)
+ gradle -DDEBUG=true run
  
 ## Service Examples
 

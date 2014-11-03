@@ -19,6 +19,20 @@ jacoco {
     toolVersion = "0.7.1.201405082137"
 }
 
+test {
+    if (System.getProperty('DEBUG', 'false') == 'true') {
+        jvmArgs '-Xdebug',
+                '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
+    }
+}
+
+run {
+    if (System.getProperty('DEBUG', 'false') == 'true') {
+        jvmArgs '-Xdebug',
+                '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
+    }
+}
+
 dependencies {
     // Core
     compile 'io.dropwizard:dropwizard-core:0.7.0'
@@ -49,9 +63,8 @@ dependencies {
     // Testing
     testCompile 'junit:junit:4.11'
     testCompile "org.mockito:mockito-core:1.9.5"
-    testCompile "info.cukes:cucumber-java:1.1.6"
-    testCompile "info.cukes:cucumber-junit:1.1.6"
-
+    testCompile "info.cukes:cucumber-java:1.1.8"
+    testCompile "info.cukes:cucumber-junit:1.1.8"
 }
 
 run {

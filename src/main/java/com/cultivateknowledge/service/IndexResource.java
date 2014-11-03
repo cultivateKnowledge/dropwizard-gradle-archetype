@@ -5,7 +5,9 @@ import io.dropwizard.views.View;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
 public class IndexResource {
 
     @GET
-    public IndexView handle() {
+    public IndexView handle(@Context UriInfo uriInfo) {
         IndexView view = new IndexView("/index.mustache");
         
         view.setHelloWorldMsg("Hello World!");
@@ -26,7 +28,8 @@ public class IndexResource {
         worlds.add("Mars");
         worlds.add("Not Pluto");
         view.setWorlds(worlds);
-        
+        view.setHostname(uriInfo.getRequestUri().getHost());
+
         return view;
     }
 
@@ -34,6 +37,7 @@ public class IndexResource {
 
         private String helloWorldMsg;
         private List<String> worlds;
+        private String hostname;
         
         protected IndexView(String templateName) {
             super(templateName);
@@ -54,6 +58,13 @@ public class IndexResource {
         public List<String> getWorlds() {
             return this.worlds;
         }
-        
+
+        public String getHostname() {
+            return this.hostname;
+        }
+
+        public void setHostname(String hostname) {
+            this.hostname = hostname;
+        }
     }
 }
